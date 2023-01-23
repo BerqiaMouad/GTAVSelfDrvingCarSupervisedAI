@@ -36,7 +36,7 @@ if __name__ == '__main__':
     window.activate()
     
     # creating dataframe to store the data
-    df = pd.DataFrame(columns=['image_id', 'key_pressed'])
+    df = pd.DataFrame(columns=['image_id', 'q', 'z', 's', 'd', 'no_key'])
 
     # loop of capturing frames with corresponding key pressed
     while True:
