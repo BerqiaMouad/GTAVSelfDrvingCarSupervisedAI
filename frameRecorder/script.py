@@ -43,7 +43,7 @@ def capture_frame(window):
 running = False
 
 def capturing_script():
-    window_name='Google Chrome'
+    window_name='Trackmania'
     
     # search for the first window with name of trackmania
     window = gw.getWindowsWithTitle(window_name)[0]
