@@ -3,3 +3,6 @@ opencv-python
 pyautogui
 pygetwindow
 pandas
+customtkinter (0.3)
+tkinter (tk)
+Pillow

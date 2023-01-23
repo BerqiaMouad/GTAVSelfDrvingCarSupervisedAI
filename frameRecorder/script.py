@@ -5,7 +5,9 @@ import pyautogui
 import pygetwindow as gw
 import time
 import pandas as pd
-
+import tkinter as tk
+import customtkinter as ctk
+import threading
 
 # Get key pressed
 def capture_key_pressed():
@@ -26,8 +28,11 @@ def capture_frame(window):
     return frame
 
 
-if __name__ == '__main__':
-    window_name='Google Chrome'
+# variable to keep track if the script is running
+running = False
+
+def capturing_script():
+    window_name='Trackmania'
     
     # search for the first window with name of trackmania
     window = gw.getWindowsWithTitle(window_name)[0]
@@ -39,7 +44,7 @@ if __name__ == '__main__':
     df = pd.DataFrame(columns=['image_id', 'q', 'z', 's', 'd', 'no_key'])
 
     # loop of capturing frames with corresponding key pressed
-    while True:
+    while running:
         key = capture_key_pressed()
         frame = capture_frame(window)
         im_id=int(time.time() * 1000)
@@ -66,9 +71,41 @@ if __name__ == '__main__':
             s=False
             d=False
             no_key=True
-        df = df.append({'image_id': im_id, 'q': q, 'z': z, 's': s, 'd': d, 'No Key': no_key}, ignore_index=True)
+        df = df.append({'image_id': im_id, 'q': q, 'z': z, 's': s, 'd': d, 'no_key': no_key}, ignore_index=True)
         df.to_csv('./data.csv', index=False)
 
+# function to stop the capturing script
+def start_capturing():
+    global running
+    running = True
+    capturing_script_sep_thread()
 
+# function to stop the capturing script
+def stop_capturing():
+    global running
+    running = False
+
+# function to make a seprate thread for capturing script
+def capturing_script_sep_thread():
+    t = threading.Thread(target=capturing_script)
+    t.start()
+
+if __name__ == '__main__':
+    root=tk.Tk()
+    root.title("Capture Data")
+    root.geometry("500x500")
+    root.resizable(False, False)
+    root.configure(background='dark slate gray')
+    
+    # creating a button to start capturing
+    start_button = tk.Button(root, text="Start Capturing", command=start_capturing)
+    start_button.pack(pady=10, padx=10)
+
+    # creating a button to stop capturing
+    stop_button = tk.Button(root, text="Stop Capturing", command=stop_capturing)
+    stop_button.pack(pady=10, padx=10)
+
+
+    root.mainloop()
 
         
