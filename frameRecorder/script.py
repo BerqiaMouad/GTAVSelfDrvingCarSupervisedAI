@@ -132,12 +132,14 @@ def capturing_script():
 def start_capturing():
     global running
     running = True
+    print("Capturing started...")
     capturing_script_sep_thread()
 
 # function to stop the capturing script
 def stop_capturing():
     global running
     running = False
+    print("Capturing stopped")
 
 # function to make a seprate thread for capturing script
 def capturing_script_sep_thread():
@@ -166,4 +168,3 @@ if __name__ == '__main__':
 
     root.mainloop()
 
-        
