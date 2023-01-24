@@ -1,7 +1,7 @@
 import keyboard
 import cv2
 import numpy as np
-import pyautogui
+from PIL import ImageGrab
 import pygetwindow as gw
 import time
 import pandas as pd
@@ -28,7 +28,7 @@ def capture_key_pressed():
 # Get frame from game window
 def capture_frame(window):
     # make screenshot of the window
-    screenshot = pyautogui.screenshot(region=(window.left, window.top, window.width, window.height))
+    screenshot = ImageGrab.grab(bbox=(window.left, window.top, window.left + window.width, window.top + window.height))
     
     # convert to numpy array
     frame = np.array(screenshot)
@@ -43,7 +43,7 @@ def capture_frame(window):
 running = False
 
 def capturing_script():
-    window_name='Trackmania'
+    window_name='Google Chrome'
     
     # search for the first window with name of trackmania
     window = gw.getWindowsWithTitle(window_name)[0]
