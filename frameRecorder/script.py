@@ -10,20 +10,9 @@ import customtkinter as ctk
 import threading
 import os.path
 import shutil
+from keys_capture import KeyCapture
 
 
-# Get key pressed
-def capture_key_pressed():
-    if(keyboard.is_pressed('q')):
-        return 'q'
-    elif(keyboard.is_pressed('z')):
-        return 'z'
-    elif(keyboard.is_pressed('s')):
-        return 's'
-    elif(keyboard.is_pressed('d')):
-        return 'd'
-    else:
-        return 'no_key'
 
 # Get frame from game window
 def capture_frame(window):
@@ -62,10 +51,11 @@ def capturing_script():
 
     # list of dictionaries to make it faster to append to the dataframe
     data = []
-
     # loop of capturing frames with corresponding key pressed
+    kc = KeyCapture()
+    kc.start()
     while running:
-        key = capture_key_pressed()
+        keys = kc.get_keys()
         
         frame = capture_frame(window)
         
@@ -76,30 +66,8 @@ def capturing_script():
 
         cv2.imwrite('./tempScreenShots/'+str(im_id)+'.png', frame)
         
-        q=False
-        z=False
-        s=False
-        d=False
-        no_key=False
-
-        # check if key pressed is one of the keys we want to capture
-        if(key == 'q'):
-            q=True
-        elif(key=='z'):
-            z=True
-        elif(key=='s'):
-            s=True
-        elif(key=='d'):
-            d=True
-        else:
-            q=False
-            z=False
-            s=False
-            d=False
-            no_key=True
-        temp = {'image_id': im_id, 'q': q, 'z': z, 's': s, 'd': d, 'no_key': no_key}
+        temp = {'image_id': im_id, 'q': keys[0], 'z': keys[1], 's': keys[2], 'd': keys[3], 'no_key': (1 if keys[0] == keys[1] == keys[2] == keys[3] == 0 else 0)}
         data.append(temp)
-    
     
     # promopt user if he wants to save the data
     save = tk.messagebox.askyesno('Save data', 'Do you want to save the data?')

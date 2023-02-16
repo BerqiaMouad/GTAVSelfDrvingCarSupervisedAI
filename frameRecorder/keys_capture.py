@@ -1,37 +1,26 @@
 import time
 from pynput import keyboard
 
-keys = []
 
-def on_press(key):
-    global keys
-    try:
-        keys.append(key.char)
-    except AttributeError:
-        keys.append(key.name)
+class KeyCapture:
+    def __init__(self):
+        self.keys = []
 
-def on_release(key):
-    global keys
-    try:
-        keys.remove(key.char)
-    except AttributeError:
-        keys.remove(key.name)
+    def on_press(self, key):
+        try:
+            self.keys.append(key.char)
+        except AttributeError:
+            self.keys.append(key.name)
 
-# Start keyboard listener in a separate thread
-listener = keyboard.Listener(on_press=on_press, on_release=on_release)
-listener.start()
+    def on_release(self, key):
+        try:
+            self.keys.remove(key.char)
+        except AttributeError:
+            self.keys.remove(key.name)
 
-# Print the "temp" dictionary every second
-while True:
-    a, w, s, d = 0, 0, 0, 0
-    if 'a' in keys:
-        a = 1
-    if 'w' in keys:
-        w = 1
-    if 's' in keys:
-        s = 1
-    if 'd' in keys:
-        d = 1
-    temp = {'a': a, 'w': w, 's': s, 'd': d}
-    print(temp)
-    time.sleep(0.1)
+    def start(self):
+        listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
+        listener.start()
+
+    def get_keys(self):
+        return [(1 if 'q' in self.keys else 0), (1 if 'z' in self.keys else 0), (1 if 's' in self.keys else 0), (1 if 'd' in self.keys else 0)]
