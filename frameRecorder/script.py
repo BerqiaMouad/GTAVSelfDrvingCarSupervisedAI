@@ -51,12 +51,13 @@ def capturing_script():
 
     # list of dictionaries to make it faster to append to the dataframe
     data = []
+
+
     # loop of capturing frames with corresponding key pressed
     kc = KeyCapture()
     kc.start()
     while running:
         keys = kc.get_keys()
-        
         frame = capture_frame(window)
         
         im_id=int(time.time() * 1000)
@@ -68,6 +69,8 @@ def capturing_script():
         
         temp = {'image_id': im_id, 'q': keys[0], 'z': keys[1], 's': keys[2], 'd': keys[3], 'no_key': (1 if keys[0] == keys[1] == keys[2] == keys[3] == 0 else 0)}
         data.append(temp)
+
+    print("Capturing finished")
     
     # promopt user if he wants to save the data
     save = tk.messagebox.askyesno('Save data', 'Do you want to save the data?')
@@ -97,7 +100,7 @@ def capturing_script():
         os.rmdir('./tempScreenShots')
 
 
-# function to stop the capturing script
+# function to start the capturing script
 def start_capturing():
     global running
     running = True
@@ -108,7 +111,7 @@ def start_capturing():
 def stop_capturing():
     global running
     running = False
-    print("Capturing stopped")
+    print("Capturing stopped...")
 
 # function to make a seprate thread for capturing script
 def capturing_script_sep_thread():
@@ -123,17 +126,25 @@ if __name__ == '__main__':
     root.title("Capture Data")
     root.geometry("500x500")
     root.resizable(False, False)
+
+    # label to help user know what is the key to start
+    label = ctk.CTkLabel(root, text="Press 'F1' to start capturing.", font=('Ubuntu', 17))
+    label.pack(pady=20, padx=20)
+    label.place(relx=0.5, y=100, anchor=tk.CENTER)
+    root.bind('<F1>', lambda event: start_capturing())
     
+    # label to help user know what is the key to stop capturing
+    label = ctk.CTkLabel(root, text="Press 'F2' to stop capturing.", font=('Ubuntu', 15))
+    label.pack(pady=20, padx=20)
+    label.place(relx=0.5, y=150, anchor=tk.CENTER)
+    root.bind('<F2>', lambda event: stop_capturing())
+
     # creating a button to start capturing
     start_button = ctk.CTkButton(root, text="Start Capturing", width=170, height=50, font=('Ubuntu', 20), corner_radius=25, command=start_capturing)
     start_button.pack(pady=20, padx=20)
-    start_button.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
-
-    # creating a button to stop capturing
-    stop_button = ctk.CTkButton(root, text="Stop Capturing", width=170, height=50, font=('Ubuntu', 20), corner_radius=25, command=stop_capturing)
-    stop_button.pack(pady=20, padx=20)
-    stop_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    start_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
 
     root.mainloop()
+
 
