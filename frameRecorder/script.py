@@ -56,6 +56,7 @@ def capturing_script():
     # loop of capturing frames with corresponding key pressed
     kc = KeyCapture()
     kc.start()
+
     while running:
         keys = kc.get_keys()
         frame = capture_frame(window)
@@ -137,13 +138,14 @@ if __name__ == '__main__':
     label = ctk.CTkLabel(root, text="Press 'F2' to stop capturing.", font=('Ubuntu', 15))
     label.pack(pady=20, padx=20)
     label.place(relx=0.5, y=150, anchor=tk.CENTER)
-    root.bind('<F2>', lambda event: stop_capturing())
 
     # creating a button to start capturing
     start_button = ctk.CTkButton(root, text="Start Capturing", width=170, height=50, font=('Ubuntu', 20), corner_radius=25, command=start_capturing)
     start_button.pack(pady=20, padx=20)
     start_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
+    # adding F2 key to stop capturing
+    keyboard.add_hotkey('F2', stop_capturing)
 
     root.mainloop()
 
