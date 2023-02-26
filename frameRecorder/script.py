@@ -13,6 +13,10 @@ import shutil
 from keys_capture import KeyCapture
 
 
+# new key capture object 
+kc = KeyCapture()
+
+
 # Get frame from game window
 def capture_frame(window):
     # make screenshot of the window
@@ -53,7 +57,6 @@ def capturing_script():
 
 
     # loop of capturing frames with corresponding key pressed
-    kc = KeyCapture()
     kc.start()
 
     while running:
@@ -76,6 +79,8 @@ def capturing_script():
         # append to the list of dictionaries
         temp = {'image_id': im_id, 'q': keys[0], 'z': keys[1], 's': keys[2], 'd': keys[3], 'no_key': (1 if keys[0] == keys[1] == keys[2] == keys[3] == 0 else 0)}
         data.append(temp)
+
+    kc.stop()
 
     print("Capturing finished")
     
@@ -118,7 +123,6 @@ def start_capturing():
 def stop_capturing():
     global running
     running = False
-    print("Capturing stopped...")
 
 # function to make a seprate thread for capturing script
 def capturing_script_sep_thread():
