@@ -13,7 +13,6 @@ import shutil
 from keys_capture import KeyCapture
 
 
-
 # Get frame from game window
 def capture_frame(window):
     # make screenshot of the window
@@ -33,7 +32,7 @@ running = False
 
 def capturing_script():
     # change this to the name of the window
-    window_name='Google Chrome'
+    window_name='Grand Theft Auto V'
     
     # search for the first window with name of trackmania
     window = gw.getWindowsWithTitle(window_name)[0]
@@ -58,8 +57,14 @@ def capturing_script():
     kc.start()
 
     while running:
+        # get keys pressed
         keys = kc.get_keys()
+        
+        # get frame
         frame = capture_frame(window)
+        
+        # keep only cars that are close to the car
+        # cars_distances = [car for car in cars_distances if car[1] < 100]
         
         im_id=int(time.time() * 1000)
         
@@ -68,6 +73,7 @@ def capturing_script():
 
         cv2.imwrite('./tempScreenShots/'+str(im_id)+'.png', frame)
         
+        # append to the list of dictionaries
         temp = {'image_id': im_id, 'q': keys[0], 'z': keys[1], 's': keys[2], 'd': keys[3], 'no_key': (1 if keys[0] == keys[1] == keys[2] == keys[3] == 0 else 0)}
         data.append(temp)
 
@@ -129,13 +135,12 @@ if __name__ == '__main__':
     root.resizable(False, False)
 
     # label to help user know what is the key to start
-    label = ctk.CTkLabel(root, text="Press 'F1' to start capturing.", font=('Ubuntu', 17))
+    label = ctk.CTkLabel(root, text="Press 'F8' to start capturing.", font=('Ubuntu', 17))
     label.pack(pady=20, padx=20)
     label.place(relx=0.5, y=100, anchor=tk.CENTER)
-    root.bind('<F1>', lambda event: start_capturing())
     
     # label to help user know what is the key to stop capturing
-    label = ctk.CTkLabel(root, text="Press 'F2' to stop capturing.", font=('Ubuntu', 15))
+    label = ctk.CTkLabel(root, text="Press 'F9' to stop capturing.", font=('Ubuntu', 15))
     label.pack(pady=20, padx=20)
     label.place(relx=0.5, y=150, anchor=tk.CENTER)
 
@@ -145,7 +150,10 @@ if __name__ == '__main__':
     start_button.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
     # adding F2 key to stop capturing
-    keyboard.add_hotkey('F2', stop_capturing)
+    keyboard.add_hotkey('F9', stop_capturing)
+
+    # adding F1 key to start capturing
+    keyboard.add_hotkey('F8', start_capturing)
 
     root.mainloop()
 
