@@ -1,7 +1,7 @@
 import keyboard
 import cv2
 import numpy as np
-from PIL import ImageGrab
+from PIL import ImageGrab, ImageTk, Image
 import pygetwindow as gw
 import time
 import pandas as pd
@@ -137,6 +137,10 @@ if __name__ == '__main__':
     root.title("Capture Data")
     root.geometry("500x500")
     root.resizable(False, False)
+
+    img_path = os.path.join(os.path.dirname(__file__), 'gtaVSelfDrivingCarBG.ico')
+    root.wm_iconbitmap(img_path)
+
 
     # label to help user know what is the key to start
     label = ctk.CTkLabel(root, text="Press 'F8' to start capturing.", font=('Ubuntu', 17))
