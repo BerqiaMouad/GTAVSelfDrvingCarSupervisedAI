@@ -60,9 +60,9 @@ def capturing_script():
     kc.start()
 
     while running:
+        t1 = time.time()
         # get keys pressed
         keys = kc.get_keys()
-        print(keys)
         
         # get frame
         frame = capture_frame(window)
@@ -80,6 +80,9 @@ def capturing_script():
         # append to the list of dictionaries
         temp = {'image_id': im_id, 'q': keys[0], 'z': keys[1], 's': keys[2], 'd': keys[3], 'no_key': (1 if keys[0] == keys[1] == keys[2] == keys[3] == 0 else 0)}
         data.append(temp)
+
+        # print the fps
+        print(f'FPS: {1/(time.time() - t1)}')
 
     kc.stop()
 

@@ -8,12 +8,20 @@ class KeyCapture:
         self.listener = None
 
     def on_press(self, key):
+        # check if key is F8
+        if key == keyboard.Key.f8:
+            # ignore it
+            return 
         try:
             self.keys.add(key.char)
         except AttributeError:
             self.keys.add(key)
 
     def on_release(self, key):
+        # check if key is F8
+        if key == keyboard.Key.f8:
+            # ignore it
+            return
         try:
             self.keys.remove(key.char)
         except AttributeError:
@@ -29,3 +37,4 @@ class KeyCapture:
 
     def get_keys(self):
         return [(1 if 'q' in self.keys else 0), (1 if 'z' in self.keys else 0), (1 if 's' in self.keys else 0), (1 if 'd' in self.keys else 0)]
+
