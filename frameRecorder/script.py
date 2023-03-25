@@ -62,6 +62,7 @@ def capturing_script():
     while running:
         # get keys pressed
         keys = kc.get_keys()
+        print(keys)
         
         # get frame
         frame = capture_frame(window)

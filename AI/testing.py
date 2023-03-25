@@ -124,4 +124,5 @@ if __name__ == '__main__':
 
         print(f'FPS: {1 / (tt2 - tt1)}')
 
-        time.sleep(0.05)
+
+    

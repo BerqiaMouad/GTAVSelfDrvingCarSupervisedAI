@@ -4,22 +4,20 @@ from pynput import keyboard
 
 class KeyCapture:
     def __init__(self):
-        self.keys = []
+        self.keys = set()
         self.listener = None
 
     def on_press(self, key):
         try:
-            self.keys.append(key.char)
+            self.keys.add(key.char)
         except AttributeError:
-            self.keys.append(key.name)
+            self.keys.add(key)
 
     def on_release(self, key):
         try:
-            if key.char in self.keys:
-                self.keys.remove(key.char)
+            self.keys.remove(key.char)
         except AttributeError:
-            if key.name in self.keys:
-                self.keys.remove(key.name)
+            self.keys.remove(key)
 
     def start(self):
         self.listener = keyboard.Listener(on_press=self.on_press, on_release=self.on_release)
