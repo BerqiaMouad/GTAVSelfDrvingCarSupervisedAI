@@ -21,14 +21,23 @@ kc = KeyCapture()
 def capture_frame(window):
     # make screenshot of the window
     screenshot = ImageGrab.grab(bbox=(window.left, window.top, window.left + window.width, window.top + window.height))
-    
+
     # convert to numpy array
     frame = np.array(screenshot)
     
     # convert to BGR
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    return frame
+    # we get the map from the frame
+    map_gta = frame[500:600, 15:160]
+
+    # resize the frame
+    frame = cv2.resize(frame, (200, 150))
+
+    # we crop the frame to remove the top bar
+    frame = frame[20:120, :]
+
+    return frame, map_gta
 
 
 # variable to keep track if the script is running
@@ -65,7 +74,7 @@ def capturing_script():
         keys = kc.get_keys()
         
         # get frame
-        frame = capture_frame(window)
+        frame, map_gta = capture_frame(window)
         
         # keep only cars that are close to the car
         # cars_distances = [car for car in cars_distances if car[1] < 100]
@@ -76,6 +85,7 @@ def capturing_script():
             os.mkdir('./tempScreenShots')
 
         cv2.imwrite('./tempScreenShots/'+str(im_id)+'.png', frame)
+        cv2.imwrite('./tempScreenShots/'+str(im_id)+'_map.png', map_gta)
         
         # append to the list of dictionaries
         temp = {'image_id': im_id, 'q': keys[0], 'z': keys[1], 's': keys[2], 'd': keys[3], 'no_key': (1 if keys[0] == keys[1] == keys[2] == keys[3] == 0 else 0)}
