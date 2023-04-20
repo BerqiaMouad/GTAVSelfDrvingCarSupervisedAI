@@ -25,17 +25,18 @@ def capture_frame(window):
     # convert to numpy array
     frame = np.array(screenshot)
     
-    # convert to BGR
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    # convert to rgb
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     # we get the map from the frame
     map_gta = frame[500:600, 15:160]
 
-    # resize the frame
-    frame = cv2.resize(frame, (200, 150))
-
     # we crop the frame to remove the top bar
-    frame = frame[20:120, :]
+    frame = frame[150:500, 3:]
+
+    # resize the frame
+    frame = cv2.resize(frame, (300, 225))
+
 
     return frame, map_gta
 
@@ -59,7 +60,7 @@ def capturing_script():
         df = pd.read_csv('./data.csv')
     else:
         # if file doesn't exist, create data frame
-        df = pd.DataFrame(columns=['image_id', 'q', 'z', 's', 'd', 'no_key'])
+        df = pd.DataFrame(columns=['image_id', 'q', 'z', 's', 'd', 'zq', 'zd', 'sq', 'sd'])
 
     # list of dictionaries to make it faster to append to the dataframe
     data = []
@@ -88,7 +89,26 @@ def capturing_script():
         cv2.imwrite('./tempScreenShots/'+str(im_id)+'_map.png', map_gta)
         
         # append to the list of dictionaries
-        temp = {'image_id': im_id, 'q': keys[0], 'z': keys[1], 's': keys[2], 'd': keys[3], 'no_key': (1 if keys[0] == keys[1] == keys[2] == keys[3] == 0 else 0)}
+        temp = {}
+        if(keys.count(1) <= 1):
+            temp = {'image_id': im_id, 'q': keys[0], 'z': keys[1], 's': keys[2], 'd': keys[3], 'zq': 0, 'zd': 0, 'sq': 0, 'sd': 0}
+
+        elif(keys.count(1) == 2):
+            # if keys are z and q
+            if(keys[0] == 1 and keys[1] == 1):
+                temp = {'image_id': im_id, 'q': 0, 'z': 0, 's': 0, 'd': 0, 'zq': 1, 'zd': 0, 'sq': 0, 'sd': 0}
+            # if keys are z and d
+            elif(keys[1] == 1 and keys[3] == 1):
+                temp = {'image_id': im_id, 'q': 0, 'z': 0, 's': 0, 'd': 0, 'zq': 0, 'zd': 1, 'sq': 0, 'sd': 0}
+            # if keys are s and q
+            elif(keys[0] == 1 and keys[2] == 1):
+                temp = {'image_id': im_id, 'q': 0, 'z': 0, 's': 0, 'd': 0, 'zq': 0, 'zd': 0, 'sq': 1, 'sd': 0}
+            # if keys are s and d
+            elif(keys[2] == 1 and keys[3] == 1):
+                temp = {'image_id': im_id, 'q': 0, 'z': 0, 's': 0, 'd': 0, 'zq': 0, 'zd': 0, 'sq': 0, 'sd': 1}
+        else:
+            temp = {'image_id': im_id, 'q': 0, 'z': 0, 's': 0, 'd': 0, 'zq': 0, 'zd': 0, 'sq': 0, 'sd': 0}
+
         data.append(temp)
 
         # print the fps
