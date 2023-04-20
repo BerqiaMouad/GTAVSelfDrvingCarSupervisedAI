@@ -124,7 +124,7 @@ def capturing_script():
     # if yes, save the data
     if(save):
         # append the data to the dataframe
-        tempDf = pd.DataFrame(data, columns=['image_id', 'q', 'z', 's', 'd', 'no_key'])
+        tempDf = pd.DataFrame(data, columns=['image_id', 'q', 'z', 's', 'd', 'zq', 'zd', 'sq', 'sd'])
         df = pd.concat([df, tempDf], ignore_index=True)
         
         # save the data
