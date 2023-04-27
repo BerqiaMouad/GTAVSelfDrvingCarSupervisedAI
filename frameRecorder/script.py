@@ -48,7 +48,7 @@ def capturing_script():
     # change this to the name of the window
     window_name='Grand Theft Auto V'
     
-    # search for the first window with name of trackmania
+    # search for the first window with name of gta
     window = gw.getWindowsWithTitle(window_name)[0]
 
     # activate the window
