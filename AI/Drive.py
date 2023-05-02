@@ -11,30 +11,34 @@ import time
 # function to capture frame and preprocess it
 def capture_frame(gta_window):
 
-    screenshot = ImageGrab.grab(bbox=(gta_window.left, gta_window.top, gta_window.left + gta_window.width, gta_window.top + gta_window.height))
+    screenshot = ImageGrab.grab(bbox=(gta_window.left, gta_window.top, gta_window.left + 800, gta_window.top + 600))
 
     screenshot = np.array(screenshot)
 
     frame = cv2.cvtColor(screenshot, cv2.COLOR_BGR2RGB)
 
+    map_gta = frame[500:600, 15:160]
+
     frame = frame[150:500, 3:]
 
-    frame = cv2.resize(frame, (300, 225))
+    frame = cv2.resize(frame, (200, 150))
 
     frame = frame / 255.0
+    map_gta = map_gta / 255.0
 
     frame = np.array(frame)
+    map_gta = np.array(map_gta)
 
-    return frame
+    return frame, map_gta
 
 
 # function to hold the key
 def hold_key(key, KB):
-    if(key == 'z'):
-        return
-
     KB.press(key)
-    time.sleep(0.2)
+    if(key == 'z'):
+        time.sleep(0.4)
+    else:
+        time.sleep(0.2)
     KB.release(key)
 
 
@@ -60,7 +64,7 @@ if __name__ == "__main__":
     keyboard.add_hotkey('F8', start_game)
     
     print("Loading model...")
-    model = tf.keras.models.load_model('./model_2_0_0.h5')
+    model = tf.keras.models.load_model('./final_model_v1_0_0.h5')
     print("Model loaded !")
     
     while not running:
@@ -87,36 +91,41 @@ if __name__ == "__main__":
     keyboard.add_hotkey('F9', stop_game)
 
     while running:
-        KB.press('z')
-        frame = capture_frame(gta_window)
+        frame, map_frame = capture_frame(gta_window)
+
+        frame = np.expand_dims(frame, axis=0)
+        map_frame = np.expand_dims(map_frame, axis=0)
 
         # predict the keys to be pressed
-        prediction = model.predict(np.array([frame]))
+        prediction = model.predict([frame, map_frame])
+
+        prediction_turn = [prediction[0][0], prediction[0][3]]
+        prediction_accelerate = [prediction[0][1], prediction[0][2]]
 
         # send the keys to gta window, get the one with highest probability
-        keys = ['q', 'z', 's', 'd', 'zq', 'zd', 'sq', 'sd']
+        keys_turn = ['q', 'd']
+        keys_accelerate = ['z', 's']
 
-        key = keys[np.argmax(prediction)]
+        key_turn = keys_turn[np.argmax(prediction_turn)]
+        key_accelerate = keys_accelerate[np.argmax(prediction_accelerate)]
 
-        # get the indice of the key
-        indice = keys.index(key)
+        indice_turn = np.argmax(prediction_turn)
+        indice_accelerate = np.argmax(prediction_accelerate)
 
         press = True
 
         if press:
             print()
-            print(f"Key : {key}")
+            print(f"Key : ", end='')
+            print(key_turn, end='')
+            print(" ", end='')
+            print(key_accelerate)
             print()
-            if(len(key) == 1):
-                hold_key(key, KB)
-            else:
-                hold_key(key[0], KB)
-                hold_key(key[1], KB)
 
-        KB.release('z')
+            hold_key(key_turn, KB)
+            
+            if prediction_accelerate[indice_accelerate] > 0.25:
+                hold_key(key_accelerate, KB)
 
-        
-    KB.release('z')
-    
     print("Stopping...")
 
