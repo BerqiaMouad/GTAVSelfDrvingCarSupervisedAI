@@ -1,6 +1,5 @@
 # **GTAVSDC: GTA V Self Driving Car**
 
-<<<<<<< HEAD
 <p>
 The goal of this project is to create an AI agent that can navigate the streets of Los
 Santos, the fictional city in GTA 5, while following a predetermi-ned route.
@@ -83,8 +82,4 @@ Wait for the model to be loaded, you will see a message in the terminal indicati
 ## **Contributing**
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-=======
-to clone the repo use the following command:
-` git clone --recurse-submodules git@github.com:BerqiaMouad/GTAVSelfDrvingCarSupervisedAI.git `
->>>>>>> 8678a36ffd1a6d029bab928f07863262c648ab58
 
