@@ -2,7 +2,7 @@
 
 <p>
 The goal of this project is to create an AI agent that can navigate the streets of Los
-Santos, the fictional city in GTA 5, while following a predetermi-ned route.
+Santos, the fictional city in GTA 5, while following a predetermined route.
 </p>
 <p>
 The main challenge of this project is to develop an AI agent that can generalize well
