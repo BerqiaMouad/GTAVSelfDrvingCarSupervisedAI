@@ -55,16 +55,16 @@ Our AI agent uses another CNN to detect the route and follow it. We use a CNN to
 ## **Installation**
 
 To install the project, you need to install the following dependencies:
-+ [Python 3.6](https://www.python.org/downloads/release/python-360/)
-+ [Tensorflow 1.14](https://www.tensorflow.org/install/pip)
-+ [OpenCV 4.1.1](https://pypi.org/project/opencv-python/)
-+ [Numpy 1.16.4](https://pypi.org/project/numpy/)
-+ [Pillow 6.1.0](https://pypi.org/project/Pillow/)
-+ [PyAutoGUI 0.9.48](https://pypi.org/project/PyAutoGUI/)
-+ [PyGetWindow 0.0.5](https://pypi.org/project/PyGetWindow/)
-+ [Tkinter 8.6]
-+ [Custom Tkinter 0.3](https://pypi.org/project/customtkinter/0.3/) 
-+ [Pynput 1.7.6](https://pypi.org/project/pynput/)
++ [Python >= 3.6](https://www.python.org/downloads/release/python-360/)
++ [Tensorflow >= 2.11](https://www.tensorflow.org/install/pip)
++ [OpenCV >= 4.7.0.72](https://pypi.org/project/opencv-python/)
++ [Numpy >= 1.24.3](https://pypi.org/project/numpy/)
++ [Pillow >= 9.5.0](https://pypi.org/project/Pillow/)
++ [PyAutoGUI >= 0.9.54](https://pypi.org/project/PyAutoGUI/)
++ [PyGetWindow >= 0.0.9](https://pypi.org/project/PyGetWindow/)
++ Tkinter >= 8.6
++ [Custom Tkinter >= 0.3](https://pypi.org/project/customtkinter/0.3/) 
++ [Pynput >= 1.7.6](https://pypi.org/project/pynput/)
 
 Then Clone the repo using the following command:
 ```bash
