@@ -62,7 +62,7 @@ To install the project, you need to install the following dependencies:
 + [Pillow 6.1.0](https://pypi.org/project/Pillow/)
 + [PyAutoGUI 0.9.48](https://pypi.org/project/PyAutoGUI/)
 + [PyGetWindow 0.0.5](https://pypi.org/project/PyGetWindow/)
-+ [Tkinter 8.6](https://pypi.org/project/tkinter/)
++ [Tkinter 8.6]
 + [Custom Tkinter 0.3](https://pypi.org/project/customtkinter/0.3/) 
 + [Pynput 1.7.6](https://pypi.org/project/pynput/)
 
