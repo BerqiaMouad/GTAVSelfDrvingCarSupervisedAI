@@ -64,7 +64,7 @@ To install the project, you need to install the following dependencies:
 + [PyGetWindow 0.0.5](https://pypi.org/project/PyGetWindow/)
 + [Tkinter 8.6](https://pypi.org/project/tkinter/)
 + [Custom Tkinter 0.3](https://pypi.org/project/customtkinter/0.3/) 
-+ [Pynput 1.4.2](https://pypi.org/project/pynput/)
++ [Pynput 1.7.6](https://pypi.org/project/pynput/)
 
 Then Clone the repo using the following command:
 ```bash
